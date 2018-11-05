@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <bean id="helloWorld" class="com.bittech.springcore.HelloWorld">
+        <property name="name" value="Jack"/>
+    </bean>
+
+
+    <bean id="circular" class="com.bittech.springcore.shape.Circular">
+        <constructor-arg name="radius" value="20"/>
+    </bean>
+
+    <bean id="rectangle" class="com.bittech.springcore.shape.Rectangle">
+        <constructor-arg name="height" value="10"/>
+        <constructor-arg name="width" value="20"/>
+    </bean>
+
+    <bean id="triangle" class="com.bittech.springcore.shape.Triangle">
+        <constructor-arg name="a" value="5"/>
+        <constructor-arg name="b" value="4"/>
+        <constructor-arg name="c" value="6"/>
+    </bean>
+
+
+    <bean id="clientService" class="com.bittech.springcore.instance.ClientService"
+          factory-method="getInstance"
+    />
+
+    <bean id="clientService2" class="com.bittech.springcore.instance.ClientService2"/>
+
+    <bean id="clientService3" factory-bean="clientService2" factory-method="getClientService3"/>
+
+
+    <!-- 装配 -->
+    <bean id="bar" class="com.bittech.springcore.assemble.Bar"/>
+    <bean id="baz" class="com.bittech.springcore.assemble.Baz"/>
+
+    <!--构造方法的装配之 bean 引用 -->
+    <bean class="com.bittech.springcore.assemble.Foo">
+        <constructor-arg ref="bar"/>
+        <constructor-arg ref="baz"/>
+    </bean>
+
+    <!--构造方法的装配之参数类型 -->
+    <!--<bean class="com.bittech.springcore.assemble.Foo">-->
+    <!--<constructor-arg type="com.bittech.springcore.assemble.Bar" ref="bar"/>-->
+    <!--<constructor-arg type="com.bittech.springcore.assemble.Baz" ref="baz"/>-->
+    <!--</bean>-->
+
+    <!--构造方法的装配之参数顺序 -->
+    <!--<bean class="com.bittech.springcore.assemble.Foo">-->
+    <!--<constructor-arg index="0" ref="bar"/>-->
+    <!--<constructor-arg index="1" ref="baz"/>-->
+    <!--</bean>-->
+
+    <!--构造方法的装配之参数名称 -->
+    <!--<bean class="com.bittech.springcore.assemble.Foo">-->
+    <!--<constructor-arg name="bar" ref="bar"/>-->
+    <!--<constructor-arg name="baz" ref="baz"/>-->
+    <!--</bean>-->
+
+
+    <!-- Setter方式装配 -->
+    <!-- Setter的方式比较常用的 -->
+    <bean id="xmlShapeCompute" class="com.bittech.springcore.shape.XmlShapeCompute">
+        <property name="shape">
+            <bean class="com.bittech.springcore.shape.Triangle">
+                <constructor-arg name="a" value="20"/>
+                <constructor-arg name="b" value="20"/>
+                <constructor-arg name="c" value="20"/>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- 数据库的连接池 -->
+    <!-- 直接赋值 -->
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+        <property name="url" value="jdbc:mysql://localhost:3306/scott"/>
+        <property name="username" value="root"/>
+        <property name="password" value="root"/>
+        <property name="maxTotal" value="20"/>
+    </bean>
+
+</beans>
